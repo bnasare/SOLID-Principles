@@ -1,3 +1,5 @@
+//! Open/Closed Principle (OCP): Software entities should be open for extension, but closed for modification.
+
 void main() {
   Discount birthdayDiscount = BirthdayDiscount();
   Discount holidayDiscount = HolidayDiscount();
@@ -7,6 +9,9 @@ void main() {
 
   print(discountCalculator.applyDiscount(birthdayDiscount, amount));
   print(discountCalculator.applyDiscount(holidayDiscount, amount));
+
+  PaymentMethod creditCardPayment = CreditCardPayment();
+  creditCardPayment.processPayment(amount);
 }
 
 abstract class Discount {
@@ -30,5 +35,16 @@ class HolidayDiscount implements Discount {
 class DiscountCalculator {
   double applyDiscount(Discount discount, double amount) {
     return discount.calculate(amount);
+  }
+}
+
+abstract class PaymentMethod {
+  void processPayment(double amount);
+}
+
+class CreditCardPayment extends PaymentMethod {
+  @override
+  void processPayment(double amount) {
+    print('Processing credit card payment of $amount');
   }
 }
